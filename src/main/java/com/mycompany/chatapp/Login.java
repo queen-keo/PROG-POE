@@ -71,7 +71,7 @@ The following codes includes:
         return hasUpperCase && hasNumber && hasSpecial;
     }
 
-    // Validating South African phone number
+   // Validating South African phone number
   /*
   The phone number validation uses a regular expression (regex) to make sure the number follows the correct South African format
     1. ^ makes sure the number starts at the beginning of the string
