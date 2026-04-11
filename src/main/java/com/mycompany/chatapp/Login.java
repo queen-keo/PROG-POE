@@ -79,6 +79,11 @@ The following codes includes:
     3. \\d{9} makes sure 9 digits follow the country code
     4. $ makes sure the string ends after the 9 digits
   This ensures that the phone number is correctly formatted as a South African number for example +27831234567.
+  
+Reference
+  Oracle (2023) Regular Expressions (The Java™ Tutorials).
+  Available at: https://docs.oracle.com/javase/tutorial/essential/regex/
+  (Accessed: 11 April 2026).
   */
     public boolean checkCellPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^\\+27\\d{9}$");
