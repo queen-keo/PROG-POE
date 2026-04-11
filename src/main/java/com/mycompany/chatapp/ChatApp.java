@@ -70,8 +70,10 @@ public class ChatApp {
                 System.out.println("Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.");
             }
         }
-
-        // Phone number Loop
+/*
+ * Created a Cell Phone Number Validation Loop
+ * Repeats until user enters a valid cell number
+ */
         String phoneNumber;
         while (true) {
             System.out.print("Enter South African Cell Phone Number (+27...): ");
