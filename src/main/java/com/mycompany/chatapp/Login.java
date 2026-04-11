@@ -72,6 +72,14 @@ The following codes includes:
     }
 
     // Validating South African phone number
+  /*
+  The phone number validation uses a regular expression (regex) to make sure the number follows the correct South African format
+    1. ^ makes sure the number starts at the beginning of the string
+    2. \\+27 makes sure that the number starts with the South African international code (+27)
+    3. \\d{9} makes sure 9 digits follow the country code
+    4. $ makes sure the string ends after the 9 digits
+  This ensures that the phone number is correctly formatted as a South African number for example +27831234567.
+  */
     public boolean checkCellPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^\\+27\\d{9}$");
     }
