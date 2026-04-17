@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.chatapp;
+import java.util.regex.Pattern;
 
 /*
 This class is responsible for handling:
@@ -86,7 +87,8 @@ Reference
   (Accessed: 11 April 2026).
   */
     public boolean checkCellPhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^\\+27\\d{9}$");
+        String regex = "^\\+27\\d{9}$";
+        return Pattern.matches(regex, phoneNumber);
     }
 
     // Registration (returns boolean now)
