@@ -17,7 +17,7 @@ public class Message {
     }
 
     // Generate 10-digit ID
-    public String generateMessageID() {
+    public String checkMessageID() {
 
         Random random = new Random();
 
@@ -46,7 +46,7 @@ public class Message {
         messageCount++;
 
         this.messageNumber = messageCount;
-        this.messageID = generateMessageID();
+        this.messageID = checkMessageID();
         this.recipient = recipient;
         this.messageText = messageText;
 
