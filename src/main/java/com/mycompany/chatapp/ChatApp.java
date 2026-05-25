@@ -136,10 +136,8 @@ And it collects users details and validates them.
 
  // Creating a final account for Login
         account = new Login(firstName, surname, username, password, phoneNumber);
-
-        if (account.registerUser()) {
-            System.out.println(" ");
-        }
+        account.registerUser();
+        
     }
 
 // Login if only the user was able to register successfully
@@ -167,7 +165,66 @@ And it collects users details and validates them.
         }
 
         System.out.println(account.returnLoginStatus(success));
+        
+         boolean quickChat = true;
+        while (quickChat) {
+            System.out.println("\n--- Welcome to QuickChat ---");
+            System.out.println("1) Send Messages");
+            System.out.println("2) Show recently sent messages");
+            System.out.println("3) Quit");
+            System.out.print("Enter your choice: ");
+            int menuChoice = input.nextInt();
+            input.nextLine();
 
-        exitProgram = true; // This will exit the program completely
+            switch (menuChoice) {
+                case 1: startQuickChat(); break;
+                case 2: System.out.println("Coming Soon."); break;
+                case 3: quickChat = false; exitProgram = true; break;
+            }
+        }
+        
     }
-}
+
+    static void startQuickChat() {
+        System.out.print("\nHow many messages do you wish to enter? ");
+        int numMessages = input.nextInt();
+        input.nextLine();
+
+        for (int i = 0; i < numMessages; i++) {
+            System.out.print("Enter recipient cell: ");
+            String recipient = input.nextLine();
+            System.out.print("Enter message (max 250 chars): ");
+            String body = input.nextLine();
+
+            Message msg = new Message(recipient, body);
+            
+            System.out.println(msg.checkMessageLength(body));
+
+            System.out.println("\nChoose an option:");
+            System.out.println("1. Send Message");
+            System.out.println("2. Disregard Message (Press 0 to delete)");
+            System.out.println("3. Store Message");
+            System.out.print("Enter choice: ");
+            int choice = input.nextInt();
+            input.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Message successfully sent.");
+                    System.out.println(msg.printMessages());
+                    break;
+                case 2:
+                    System.out.println("Press 0 to delete the message.");
+                    break;
+                case 3:
+                    msg.storeMessage();
+                    System.out.println("Message successfully stored.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+        System.out.println("Total messages sent: " + Message.getTotalMessages());
+        exitProgram = true; // This will exit the program completely after its done
+    }
+}  
