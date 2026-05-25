@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.chatapp;
-import java.util.regex.Pattern;
 
 /*
 This class is responsible for handling:
@@ -72,23 +71,21 @@ The following codes includes:
         return hasUpperCase && hasNumber && hasSpecial;
     }
 
-   // Validating South African phone number
-  /*
-  The phone number validation uses a regular expression (regex) to make sure the number follows the correct South African format
-    1. ^ makes sure the number starts at the beginning of the string
-    2. \\+27 makes sure that the number starts with the South African international code (+27)
-    3. \\d{9} makes sure 9 digits follow the country code
-    4. $ makes sure the string ends after the 9 digits
-  This ensures that the phone number is correctly formatted as a South African number for example +27831234567.
-  
-Reference
-  Oracle (2023) Regular Expressions (The Java™ Tutorials).
-  Available at: https://docs.oracle.com/javase/tutorial/essential/regex/
-  (Accessed: 11 April 2026).
-  */
+    // Validating South African phone number
+/*
+    The following codes includes:
+        1. Username validation must contain '_' and be <= 5 characters
+        2. Password complexity check at least eight characters which includes uppercase, number, special character)
+        3. South African phone number validation should begin with +27 format plus nine digits
+        4. Login verification verify is username and password matches with the one one the registration 
+    
+    Reference:
+     Oracle (2023) Regular Expressions (The Java™ Tutorials).
+     Available at: https://docs.oracle.com/javase/tutorial/essential/regex/
+    (Accessed: 11 April 2026).
+ */
     public boolean checkCellPhoneNumber(String phoneNumber) {
-        String regex = "^\\+27\\d{9}$";
-        return Pattern.matches(regex, phoneNumber);
+        return phoneNumber.matches("^\\+27\\d{9}$");
     }
 
     // Registration (returns boolean now)
