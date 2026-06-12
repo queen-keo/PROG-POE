@@ -13,9 +13,11 @@ package com.mycompany.chatapp;
 import java.util.Random;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Message {
     private static int totalMessagesSent = 0;
+    private static ArrayList<Message> storedMessages = new ArrayList<>();
     private final String messageID;
     private final String recipient;
     private final String message;
@@ -29,6 +31,22 @@ public class Message {
         this.messageHash = createMessageHash();
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public String getMessageID() {
+        return messageID;
+    }
+
+    public String getMessageHash() {
+        return messageHash;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+    
     private String generateID() {
         Random rand = new Random();
         return String.format("%010d", rand.nextInt(1000000000));
@@ -63,8 +81,11 @@ public class Message {
     }
 
     public void storeMessage() {
-    String json = String.format("{\"ID\":\"%s\", \"Hash\":\"%s\", \"Recipient\":\"%s\"}%n", 
-                                messageID, messageHash, recipient);
+    String json = String.format("{\"ID\":\"%s\", \"Hash\":\"%s\", \"Recipient\":\"%s\", \"Message\":\"%s\"}%n", 
+                                messageID, 
+                                messageHash, 
+                                recipient,
+                                message);
     
     try (FileWriter fw = new FileWriter("messages.json", true)) {
         fw.write(json);
@@ -78,8 +99,65 @@ public class Message {
         return "\nMessage ID: " + messageID + "\nMessage Hash: " + messageHash + 
                "\nRecipient: " + recipient + "\nMessage: " + message;
     }
+    
+    public static void addStoredMessage(Message msg) {
+        storedMessages.add(msg);
+}
 
-    public static int getTotalMessages() {
-        return totalMessagesSent;
+    public static String displayLongestMessage() {
+        if (storedMessages.isEmpty()) {
+            return "No messages stored.";
+    }
+
+    Message longest = storedMessages.get(0);
+    for (Message msg : storedMessages) {
+
+        if (msg.getMessage().length() > longest.getMessage().length()) {
+            longest = msg;
+        }
+    }
+            return longest.getMessage();
+}
+
+    public static String searchMessageByID(String id) {
+    for (Message msg : storedMessages) {
+        if (msg.getMessageID().equals(id)) {
+            return "Recipient: " + msg.getRecipient() + " | Message: " + msg.getMessage();
+        }
+    }
+            return "Message not found.";
+}
+
+    public static String searchMessagesByRecipient(String recipient) {
+        String result = "";
+    for (Message msg : storedMessages) {
+        if (msg.getRecipient().equals(recipient)) {
+            result += msg.getMessage() + "\n";
+        }
+    }
+            return result;
+}
+
+    public static String deleteMessageByHash(String hash) {
+    for (int i = 0; i < storedMessages.size(); i++) {
+        if (storedMessages.get(i).getMessageHash().equals(hash)) {
+            storedMessages.remove(i);
+            return "Message successfully deleted.";
+        }
+    }
+            return "Message not found.";
+}
+
+    public static void displayReport() {
+        for (Message msg : storedMessages) {
+            System.out.println("ID: " + msg.getMessageID() + " | Hash: " + msg.getMessageHash()
+                + " | Recipient: " + msg.getRecipient() + " | Message: " + msg.getMessage()
+        );
     }
 }
+
+    public static int getTotalMessages() {
+            return totalMessagesSent;
+}
+}
+
