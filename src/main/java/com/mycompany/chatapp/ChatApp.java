@@ -5,6 +5,7 @@
 package com.mycompany.chatapp;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /*
 This class contains the main method and a foundation for controls which are:
@@ -25,6 +26,10 @@ public class ChatApp {
     static Login account = null; 
     static boolean exitProgram = false; 
 
+    static ArrayList<Message> sentMessages = new ArrayList<>();
+    static ArrayList<Message> disregardedMessages = new ArrayList<>();
+    static ArrayList<Message> storedMessages = new ArrayList<>();
+    
     public static void main(String[] args) {
         int choice;
 
@@ -171,7 +176,8 @@ And it collects users details and validates them.
             System.out.println("\n--- Welcome to QuickChat ---");
             System.out.println("1) Send Messages");
             System.out.println("2) Show recently sent messages");
-            System.out.println("3) Quit");
+            System.out.println("3) Stored Messages");
+            System.out.println("4) Quit");
             System.out.print("Enter your choice: ");
             int menuChoice = input.nextInt();
             input.nextLine();
@@ -179,10 +185,61 @@ And it collects users details and validates them.
             switch (menuChoice) {
                 case 1: startQuickChat(); break;
                 case 2: System.out.println("Coming Soon."); break;
-                case 3: quickChat = false; exitProgram = true; break;
+                case 3:manageStoredMessages(); break;
+                case 4: quickChat = false; exitProgram = true; break;
             }
+        } 
+    }
+      
+    static void manageStoredMessages() {
+        System.out.println("\n--- STORED MESSAGES MENU ---");
+        System.out.println("a. Display sender and recipient of all stored messages");
+        System.out.println("b. Display the longest stored message");
+        System.out.println("c. Search for a message ID and display details");
+        System.out.println("d. Search for all messages for a particular recipient");
+        System.out.println("e. Delete a message using the message hash");
+        System.out.println("f. Display a report of all stored messages");
+        System.out.print("Enter choice: ");
+        String subChoice = input.nextLine();
+
+        switch (subChoice.toLowerCase()) {
+            case "a":
+                for (Message m : storedMessages)
+                System.out.println("Recipient: " + m.getRecipient() + " | Message: " + m.getMessage());
+                break;
+            case "b":
+                Message longest = null;
+                for (Message m : storedMessages) {
+                    if (longest == null || m.getMessage().length() > longest.getMessage().length()) longest = m;
+                }   
+                System.out.println("Longest Message: " + (longest != null ? longest.getMessage() : "No messages stored."));
+                break;
+            case "c":
+                System.out.print("Enter Message ID: "); String id = input.nextLine();
+                for (Message m : storedMessages) {
+                    if (m.getMessageID().equals(id)) System.out.println("Recipient: " + m.getRecipient() + " | Msg: " + m.getMessage());
+                }
+                break;
+            case "d":
+                System.out.print("Enter Recipient: "); String rec = input.nextLine();
+                for (Message m : storedMessages) {
+                    if (m.getRecipient().equals(rec)) System.out.println("Message: " + m.getMessage());
+                }
+                break;
+            case "e":
+                System.out.print("Enter Hash to delete: "); String hash = input.nextLine();
+                boolean removed = storedMessages.removeIf(m -> m.getMessageHash().equals(hash));
+                System.out.println(removed ? "Message successfully deleted." : "Message not found.");
+                break;
+            case "f":
+                System.out.println("--- FULL REPORT ---");
+                for (Message m : storedMessages) {
+                    System.out.println("ID: " + m.getMessageID() + " | Hash: " + m.getMessageHash() + " | Recipient: " + m.getRecipient());
+                }
+                break;
+            default:
+                System.out.println("Invalid option.");
         }
-        
     }
 
     static void startQuickChat() {
@@ -197,7 +254,6 @@ And it collects users details and validates them.
             String body = input.nextLine();
 
             Message msg = new Message(recipient, body);
-            
             System.out.println(msg.checkMessageLength(body));
 
             System.out.println("\nChoose an option:");
